@@ -1,7 +1,6 @@
 package game
 
 import (
-	"fmt"
 	"github.com/Caaki/RayTracingWithGo/constants"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
@@ -28,7 +27,6 @@ func (g *Game) Update() error {
 	if frameTimer >= 60 {
 		secTimer++
 		frameTimer = 0
-		fmt.Println("One secound passed")
 		circleColor = randomColor()
 	} else {
 		if positionX >= constants.ScreenWidth-constants.LightSourceRadius ||
