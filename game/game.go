@@ -2,6 +2,7 @@ package game
 
 import (
 	"github.com/Caaki/RayTracingWithGo/constants"
+	"github.com/Caaki/RayTracingWithGo/models"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/vector"
@@ -18,10 +19,67 @@ var (
 	positionY   float32     = constants.ScreenHeight / 2
 	radius      float32     = constants.LightSourceRadius
 )
-var speedX = 3
-var speedY = 3
 
-type Game struct{}
+var speedX = 1
+var speedY = 1
+
+var lines []models.Line
+
+type Game struct {
+}
+
+func init() {
+	x := float32(0)
+	y := float32(0)
+	for ; x <= constants.ScreenWidth; x += 10 {
+		lines = append(lines, models.Line{
+			StartX:      positionX,
+			StartY:      positionY,
+			EndX:        x,
+			EndY:        y,
+			StrokeWidth: 1.0,
+			Color:       color.White,
+			Aa:          true,
+		})
+	}
+
+	for ; y <= constants.ScreenHeight; y += 10 {
+		lines = append(lines, models.Line{
+			StartX:      positionX,
+			StartY:      positionY,
+			EndX:        x,
+			EndY:        y,
+			StrokeWidth: 1.0,
+			Color:       color.White,
+			Aa:          true,
+		})
+	}
+
+	for ; x >= 0; x -= 10 {
+		lines = append(lines, models.Line{
+			StartX:      positionX,
+			StartY:      positionY,
+			EndX:        x,
+			EndY:        y,
+			StrokeWidth: 1.0,
+			Color:       color.White,
+			Aa:          true,
+		})
+	}
+
+	for ; y >= 0; y -= 10 {
+		lines = append(lines, models.Line{
+			StartX:      positionX,
+			StartY:      positionY,
+			EndX:        x,
+			EndY:        y,
+			StrokeWidth: 1.0,
+			Color:       color.White,
+			Aa:          true,
+		})
+	}
+
+}
 
 func (g *Game) Update() error {
 	if frameTimer >= 60 {
@@ -50,6 +108,9 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 
 	vector.DrawFilledCircle(screen, positionX, positionY, radius, circleColor, true)
+	for _, v := range lines {
+		vector.StrokeLine(screen, positionX, positionY, v.EndX, v.EndY, v.StrokeWidth, v.Color, v.Aa)
+	}
 	ebitenutil.DebugPrint(screen, "Seconds passed: "+strconv.Itoa(secTimer))
 
 }
