@@ -1,24 +1,19 @@
 package main
 
 import (
-	"image/color"
-
-	"fyne.io/fyne"
-	"fyne.io/fyne/app"
-	"fyne.io/fyne/canvas"
+	"fmt"
+	game2 "github.com/Caaki/RayTracingWithGo/game"
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 func main() {
+	game := &game2.Game{}
+	ebiten.SetWindowSize(980, 800)
+	ebiten.SetWindowTitle("Ray tracing in go")
 
-	myApp := app.New()
-	w := myApp.NewWindow("Circle")
-
-	circle := canvas.NewCircle(color.White)
-	circle.StrokeColor = color.Gray{Y: 0x99}
-	circle.StrokeWidth = 5
-	w.SetContent(circle)
-
-	w.Resize(fyne.NewSize(100, 100))
-	w.ShowAndRun()
+	if err := ebiten.RunGame(game); err != nil {
+		fmt.Print("Error running app")
+		return
+	}
 
 }
