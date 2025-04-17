@@ -29,16 +29,18 @@ func (g *Game) Update() error {
 		frameTimer = 0
 		circleColor = randomColor()
 	} else {
-		if positionX >= constants.ScreenWidth-constants.LightSourceRadius ||
-			positionX <= 0+constants.LightSourceRadius {
-			speedX = speedX * -1
-		}
-		if positionY >= constants.ScreenHeight-constants.LightSourceRadius ||
-			positionY <= 0+constants.LightSourceRadius {
-			speedY = speedY * -1
-		}
-		positionX += float32(speedX)
-		positionY += float32(speedY)
+		//if positionX >= constants.ScreenWidth-constants.LightSourceRadius-1 ||
+		//	positionX <= 0+constants.LightSourceRadius {
+		//	speedX = speedX * -1
+		//	time.Sleep(2)
+		//}
+		//if positionY >= constants.ScreenHeight-constants.LightSourceRadius-1 ||
+		//	positionY <= 0+constants.LightSourceRadius {
+		//	speedY = speedY * -1
+		//	time.Sleep(2)
+		//}
+		//positionX += float32(speedX)
+		//positionY += float32(speedY)
 		frameTimer++
 	}
 
