@@ -1,14 +1,16 @@
 package game
 
 import (
+	"image/color"
+	"math/rand"
+	"strconv"
+	"time"
+
 	"github.com/Caaki/RayTracingWithGo/constants"
 	"github.com/Caaki/RayTracingWithGo/models"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/vector"
-	"image/color"
-	"math/rand"
-	"strconv"
 )
 
 var secTimer = 0
@@ -88,18 +90,18 @@ func (g *Game) Update() error {
 		circleColor = randomColor()
 	} else {
 		//Ball moving logic
-		//if positionX >= constants.ScreenWidth-constants.LightSourceRadius-1 ||
-		//	positionX <= 0+constants.LightSourceRadius {
-		//	speedX = speedX * -1
-		//	time.Sleep(2)
-		//}
-		//if positionY >= constants.ScreenHeight-constants.LightSourceRadius-1 ||
-		//	positionY <= 0+constants.LightSourceRadius {
-		//	speedY = speedY * -1
-		//	time.Sleep(2)
-		//}
-		//positionX += float32(speedX)
-		//positionY += float32(speedY)
+		if positionX >= constants.ScreenWidth-constants.LightSourceRadius-1 ||
+			positionX <= 0+constants.LightSourceRadius {
+			speedX = speedX * -1
+			time.Sleep(1)
+		}
+		if positionY >= constants.ScreenHeight-constants.LightSourceRadius-1 ||
+			positionY <= 0+constants.LightSourceRadius {
+			speedY = speedY * -1
+			time.Sleep(2)
+		}
+		positionX += float32(speedX)
+		positionY += float32(speedY)
 		frameTimer++
 	}
 
