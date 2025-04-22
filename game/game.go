@@ -87,6 +87,7 @@ func (g *Game) Update() error {
 		frameTimer = 0
 		circleColor = randomColor()
 	} else {
+		//Ball moving logic
 		//if positionX >= constants.ScreenWidth-constants.LightSourceRadius-1 ||
 		//	positionX <= 0+constants.LightSourceRadius {
 		//	speedX = speedX * -1
@@ -111,7 +112,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	for _, v := range lines {
 		vector.StrokeLine(screen, positionX, positionY, v.EndX, v.EndY, v.StrokeWidth, v.Color, v.Aa)
 	}
-	ebitenutil.DebugPrint(screen, "Seconds passed: "+strconv.Itoa(secTimer))
+	//ebitenutil.DebugPrint(screen, "Seconds passed: "+strconv.Itoa(secTimer))
 
 }
 
