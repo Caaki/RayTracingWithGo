@@ -1,7 +1,7 @@
 package constants
 
 const (
-	ScreenWidth       = 600
+	ScreenWidth       = 900
 	ScreenHeight      = 600
 	LightSourceRadius = 50
 )
