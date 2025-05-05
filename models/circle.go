@@ -3,8 +3,8 @@ package models
 import "image/color"
 
 type Circle struct {
-	circleColor color.Color
-	positionX   float32 //Width
-	positionY   float32 // Height
-	radius      float32
+	CircleColor color.Color
+	PositionX   float32 //Width
+	PositionY   float32 // Height
+	Radius      float32
 }

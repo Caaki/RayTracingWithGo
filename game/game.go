@@ -12,12 +12,7 @@ import (
 
 var secTimer = 0
 var frameTimer = 0
-var (
-	circleColor color.Color = color.White
-	positionX   float32     = constants.ScreenWidth / 2
-	positionY   float32     = constants.ScreenHeight / 2
-	radius      float32     = constants.LightSourceRadius
-)
+var ()
 
 var speedX = 1
 var speedY = 1
@@ -31,9 +26,18 @@ type CursorPosition struct {
 
 type Game struct {
 	cursor CursorPosition
+	circle models.Circle
 }
 
-func init() {
+func NewGame() *Game {
+	circleColor := color.White
+	var positionX float32 = constants.ScreenWidth / 2
+	var positionY float32 = constants.ScreenHeight / 2
+
+	radius := float32(constants.LightSourceRadius)
+	g := &Game{
+		circle: models.Circle{PositionX: positionX, PositionY: positionY, CircleColor: circleColor, Radius: radius},
+	}
 
 	const rayCount = 180
 	for i := 0; i < rayCount; i++ {
@@ -51,6 +55,8 @@ func init() {
 			Aa:          true,
 		})
 	}
+
+	return g
 }
 
 func (g *Game) Update() error {
@@ -69,9 +75,9 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 
-	vector.DrawFilledCircle(screen, positionX, positionY, radius, circleColor, true)
+	vector.DrawFilledCircle(screen, g.circle.PositionX, g.circle.PositionY, g.circle.Radius, g.circle.CircleColor, true)
 	for _, v := range lines {
-		vector.StrokeLine(screen, positionX, positionY, v.EndX, v.EndY, v.StrokeWidth, v.Color, v.Aa)
+		vector.StrokeLine(screen, g.circle.PositionX, g.circle.PositionY, v.EndX, v.EndY, v.StrokeWidth, v.Color, v.Aa)
 	}
 
 }
@@ -98,12 +104,15 @@ func changePositionOfLine(x, y int, line *models.Line) {
 }
 
 func (g *Game) moveBall(x, y int) {
-	difX := x - g.cursor.x
-	difY := y - g.cursor.y
-	positionX += float32(difX)
-	positionY += float32(difY)
 
-	for i := range lines {
-		changePositionOfLine(difX, difY, &lines[i])
+	if x >= int(g.circle.PositionX)-constants.LightSourceRadius && x <= int(g.circle.PositionX)+constants.LightSourceRadius && y >= int(g.circle.PositionY)-constants.LightSourceRadius && y <= int(g.circle.PositionY)+constants.LightSourceRadius {
+		difX := x - g.cursor.x
+		difY := y - g.cursor.y
+		g.circle.PositionX += float32(difX)
+		g.circle.PositionY += float32(difY)
+
+		for i := range lines {
+			changePositionOfLine(difX, difY, &lines[i])
+		}
 	}
 }

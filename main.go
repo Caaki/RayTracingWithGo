@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/Caaki/RayTracingWithGo/constants"
-	game2 "github.com/Caaki/RayTracingWithGo/game"
+	"github.com/Caaki/RayTracingWithGo/game"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 func main() {
-	game := &game2.Game{}
+	game := game.NewGame()
 	ebiten.SetWindowSize(constants.ScreenWidth, constants.ScreenHeight)
 	ebiten.SetWindowTitle("Ray tracing in go")
 
