@@ -7,4 +7,5 @@ type Circle struct {
 	PositionX   float32 //Width
 	PositionY   float32 // Height
 	Radius      float32
+	Aa          bool
 }

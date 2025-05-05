@@ -1,8 +1,12 @@
 package models
 
+import "image/color"
+
 type Rectangle struct{
-  positionX float32
-  positionY float32
-  height int
-  width int
+  PositionX float32
+  PositionY float32
+  Height int
+  Width int
+  Color color.Color
+  Aa bool
 }
