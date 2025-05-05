@@ -34,56 +34,7 @@ type Game struct {
 }
 
 func init() {
-	//fmt.Println("DONES")
-	//x := float32(0)
-	//y := float32(0)
-	//for ; x <= constants.ScreenWidth; x += 10 {
-	//	lines = append(lines, models.Line{
-	//		StartX:      positionX,
-	//		StartY:      positionY,
-	//		EndX:        x,
-	//		EndY:        y,
-	//		StrokeWidth: 1.0,
-	//		Color:       color.White,
-	//		Aa:          true,
-	//	})
-	//}
-	//
-	//for ; y <= constants.ScreenHeight; y += 10 {
-	//	lines = append(lines, models.Line{
-	//		StartX:      positionX,
-	//		StartY:      positionY,
-	//		EndX:        x,
-	//		EndY:        y,
-	//		StrokeWidth: 1.0,
-	//		Color:       color.White,
-	//		Aa:          true,
-	//	})
-	//}
-	//
-	//for ; x >= 0; x -= 10 {
-	//	lines = append(lines, models.Line{
-	//		StartX:      positionX,
-	//		StartY:      positionY,
-	//		EndX:        x,
-	//		EndY:        y,
-	//		StrokeWidth: 1.0,
-	//		Color:       color.White,
-	//		Aa:          true,
-	//	})
-	//}
-	//
-	//for ; y >= 0; y -= 10 {
-	//	lines = append(lines, models.Line{
-	//		StartX:      positionX,
-	//		StartY:      positionY,
-	//		EndX:        x,
-	//		EndY:        y,
-	//		StrokeWidth: 1.0,
-	//		Color:       color.White,
-	//		Aa:          true,
-	//	})
-	//}
+
 	const rayCount = 180
 	for i := 0; i < rayCount; i++ {
 		angle := float64(i) * (2 * math.Pi / float64(rayCount))
@@ -103,30 +54,14 @@ func init() {
 }
 
 func (g *Game) Update() error {
-	//if frameTimer >= 60 {
-	//	secTimer++
-	//	frameTimer = 0
-	//} else {
-	//	//Ball moving logic
-	//	if positionX >= constants.ScreenWidth-constants.LightSourceRadius-1 ||
-	//		positionX <= 0+constants.LightSourceRadius {
-	//		speedX = speedX * -1
-	//	}
-	//	if positionY >= constants.ScreenHeight-constants.LightSourceRadius-1 ||
-	//		positionY <= 0+constants.LightSourceRadius {
-	//		speedY = speedY * -1
-	//	}
-	//	positionX += float32(speedX)
-	//	positionY += float32(speedY)
-	//	for i := range lines {
-	//		changePositionOfLine(speedX, speedY, &lines[i])
-	//	}
-	//	frameTimer++
-	//}
 
 	mx, my := ebiten.CursorPosition()
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		g.moveBall(mx, my)
+	}
+	g.cursor = CursorPosition{
+		x: mx,
+		y: my,
 	}
 
 	return nil
@@ -163,5 +98,12 @@ func changePositionOfLine(x, y int, line *models.Line) {
 }
 
 func (g *Game) moveBall(x, y int) {
+	difX := x - g.cursor.x
+	difY := y - g.cursor.y
+	positionX += float32(difX)
+	positionY += float32(difY)
 
+	for i := range lines {
+		changePositionOfLine(difX, difY, &lines[i])
+	}
 }
