@@ -24,7 +24,13 @@ var speedY = 1
 
 var lines []models.Line
 
+type CursorPosition struct {
+	x int
+	y int
+}
+
 type Game struct {
+	cursor CursorPosition
 }
 
 func init() {
@@ -97,26 +103,30 @@ func init() {
 }
 
 func (g *Game) Update() error {
-	if frameTimer >= 60 {
-		secTimer++
-		frameTimer = 0
-		//circleColor = randomColor()
-	} else {
-		//Ball moving logic
-		if positionX >= constants.ScreenWidth-constants.LightSourceRadius-1 ||
-			positionX <= 0+constants.LightSourceRadius {
-			speedX = speedX * -1
-		}
-		if positionY >= constants.ScreenHeight-constants.LightSourceRadius-1 ||
-			positionY <= 0+constants.LightSourceRadius {
-			speedY = speedY * -1
-		}
-		positionX += float32(speedX)
-		positionY += float32(speedY)
-		for i := range lines {
-			changePositionOfLine(speedX, speedY, &lines[i])
-		}
-		frameTimer++
+	//if frameTimer >= 60 {
+	//	secTimer++
+	//	frameTimer = 0
+	//} else {
+	//	//Ball moving logic
+	//	if positionX >= constants.ScreenWidth-constants.LightSourceRadius-1 ||
+	//		positionX <= 0+constants.LightSourceRadius {
+	//		speedX = speedX * -1
+	//	}
+	//	if positionY >= constants.ScreenHeight-constants.LightSourceRadius-1 ||
+	//		positionY <= 0+constants.LightSourceRadius {
+	//		speedY = speedY * -1
+	//	}
+	//	positionX += float32(speedX)
+	//	positionY += float32(speedY)
+	//	for i := range lines {
+	//		changePositionOfLine(speedX, speedY, &lines[i])
+	//	}
+	//	frameTimer++
+	//}
+
+	mx, my := ebiten.CursorPosition()
+	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
+		g.moveBall(mx, my)
 	}
 
 	return nil
@@ -128,23 +138,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	for _, v := range lines {
 		vector.StrokeLine(screen, positionX, positionY, v.EndX, v.EndY, v.StrokeWidth, v.Color, v.Aa)
 	}
-	//ebitenutil.DebugPrint(screen, "Seconds passed: "+strconv.Itoa(secTimer))
 
 }
 
-//func (g *Game) Draw(screen *ebiten.Image) {
-
-//vector.DrawFilledCircle(screen, positionX, positionY, radius, circleColor, true)
-//for _, v := range lines {
-//sx := v.StartX + float32(speedX)
-//ex := v.EndX + float32(speedX)
-//sy := v.StartY + float32(speedY)
-//ey := v.EndY + float32(speedY)
-//vector.StrokeLine(screen, sx, sy, ex, ey, v.StrokeWidth, v.Color, v.Aa)
-//}
-//ebitenutil.DebugPrint(screen, "Seconds passed: "+strconv.Itoa(secTimer))
-
-// }
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
 	return constants.ScreenWidth, constants.ScreenHeight
 }
@@ -163,5 +159,9 @@ func changePositionOfLine(x, y int, line *models.Line) {
 
 	line.StartY += float32(y)
 	line.EndY += float32(y)
+
+}
+
+func (g *Game) moveBall(x, y int) {
 
 }
