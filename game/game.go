@@ -59,7 +59,7 @@ func NewGame() *Game {
 		endX := g.circle.PositionX + float32(math.Cos(angle))*1000
 		endY := g.circle.PositionY + float32(math.Sin(angle))*1000
 
-		lines = append(lines, models.Line{
+		line := models.Line{
 			StartX:      g.circle.PositionX,
 			StartY:      g.circle.PositionY,
 			EndX:        endX,
@@ -69,8 +69,15 @@ func NewGame() *Game {
 			StrokeWidth: 1,
 			Color:       color.White,
 			Aa:          true,
-		})
-	}
+		}
 
+		px, py, ok := checkColision(&line, g)
+		if ok {
+			line.EndX = px
+			line.EndY = py
+		}
+
+		lines = append(lines, line)
+	}
 	return g
 }
