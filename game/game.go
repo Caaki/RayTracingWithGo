@@ -44,8 +44,8 @@ func NewGame() *Game {
 			y: my,
 		},
 		rectangle: models.Rectangle{
-			PositionX: 300,
-			PositionY: 300,
+			PositionX: 450,
+			PositionY: 400,
 			Height:    50,
 			Width:     100,
 			Aa:        true,
@@ -56,14 +56,16 @@ func NewGame() *Game {
 	const rayCount = 180
 	for i := 0; i < rayCount; i++ {
 		angle := float64(i) * (2 * math.Pi / float64(rayCount))
-		endX := positionX + float32(math.Cos(angle))*1000
-		endY := positionY + float32(math.Sin(angle))*1000
+		endX := g.circle.PositionX + float32(math.Cos(angle))*1000
+		endY := g.circle.PositionY + float32(math.Sin(angle))*1000
 
 		lines = append(lines, models.Line{
-			StartX:      positionX,
-			StartY:      positionY,
+			StartX:      g.circle.PositionX,
+			StartY:      g.circle.PositionY,
 			EndX:        endX,
 			EndY:        endY,
+			MaxX:        endX,
+			MaxY:        endY,
 			StrokeWidth: 1,
 			Color:       color.White,
 			Aa:          true,

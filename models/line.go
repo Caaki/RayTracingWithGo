@@ -7,6 +7,8 @@ type Line struct {
 	StartY      float32
 	EndX        float32
 	EndY        float32
+	MaxX        float32
+	MaxY        float32
 	StrokeWidth float32
 	Color       color.Color
 	Aa          bool
