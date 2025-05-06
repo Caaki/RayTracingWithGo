@@ -46,8 +46,8 @@ func NewGame() *Game {
 		rectangle: models.Rectangle{
 			PositionX: 450,
 			PositionY: 400,
-			Height:    50,
-			Width:     100,
+			Height:    constants.RectangleHeight,
+			Width:     constants.RectangleWidth,
 			Aa:        true,
 			Color:     circleColor,
 		},
