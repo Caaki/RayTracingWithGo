@@ -65,10 +65,10 @@ func (g *Game) moveRectangle (x,y int){
     difY:= y - g.cursor.y
     g.rectangle.PositionX+=float32(difX)
     g.rectangle.PositionY+=float32(difY)
-    /*for i := range lines {
-      changePositionOfLine(difX, difY, &lines[i],g)
+    for i := range lines {
+      changePositionOfLineRec(difX, difY, &lines[i],g)
     }
-    */
+    
   }
 }
 
@@ -116,3 +116,41 @@ func changePositionOfLine(x, y int, line *models.Line,g *Game) {
 
 }
 
+func changePositionOfLineRec(x, y int, line *models.Line,g *Game) {
+  line.EndX = line.MaxX
+  line.EndY = line.MaxY
+
+  sides:=make([][2][2]float32,4)
+  x0,y0:= g.rectangle.PositionX,g.rectangle.PositionY
+  w,h := float32(g.rectangle.Width), float32(g.rectangle.Height)
+
+  sides[0]=[2][2]float32{{x0, y0},{x0+w ,y0}}
+  sides[1]=[2][2]float32{{x0 + w, y0},{x0+w ,y0 + h}}
+  sides[2]=[2][2]float32{{x0 + w, y0 + h},{x0 ,y0 + h}}
+  sides[3]=[2][2]float32{{x0, y0 + h },{x0, y0}}
+
+  for _, v := range sides {
+    x1, y1 := line.StartX, line.StartY
+    x2, y2 := line.EndX, line.EndY
+    x3, y3 := v[0][0], v[0][1]
+    x4, y4 := v[1][0], v[1][1]
+
+    den := (x1 - x2)*(y3 - y4) - (y1 - y2)*(x3 - x4)
+    if den == 0 {
+      continue
+    }
+
+    t := ((x1 - x3)*(y3 - y4) - (y1 - y3)*(x3 - x4)) / den
+    u := ((x1 - x3)*(y1 - y2) - (y1 - y3)*(x1 - x2)) / den
+
+    if t >= 0 && t <= 1 && u >= 0 && u <= 1 {
+
+      px := x1 + t * (x2 - x1)
+      py := y1 + t * (y2 - y1)
+      line.EndX = px
+      line.EndY = py
+      return
+    }
+  }
+
+}
